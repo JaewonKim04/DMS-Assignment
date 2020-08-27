@@ -21,13 +21,7 @@ public class GitHubUsers {
     private String avatar;
 
 
-    public String getAvatar() {
-        return avatar;
-    }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
     public GitHubUsers(String login, String followers, String following, String lastdate, String madedate, String avatar) {
         this.login = login;
@@ -37,25 +31,8 @@ public class GitHubUsers {
         this.madedate = madedate;
         this.avatar=avatar;
     }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setFollowers(String followers) {
-        this.followers = followers;
-    }
-
-    public void setFollowing(String following) {
-        this.following = following;
-    }
-
-    public void setLastdate(String lastdate) {
-        this.lastdate = lastdate;
-    }
-
-    public void setMadedate(String madedate) {
-        this.madedate = madedate;
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getLogin() {

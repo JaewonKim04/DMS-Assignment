@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,20 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mygithub.OnReposItemClick;
-import com.example.mygithub.R;
-import com.example.mygithub.ReposAdapter;
 import com.model.GitHubRepo;
-import com.model.GitHubUsers;
 import com.rest.AppClient;
 import com.rest.GitHubRepoEndPoint;
-import com.rest.GitHubUserEndPoint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,11 +42,11 @@ public class RepositoryFragment extends Fragment{
         userNameTv=view.findViewById(R.id.userNameTV);
         mrecyclerView=view.findViewById(R.id.recyclerview);
         Bundle extras=getActivity().getIntent().getExtras();
-        recievedUserName=extras.getString("username_String");
+        recievedUserName=extras.getString("username_String");    //id를 받아옴
         userNameTv.setText("(Click to go repository)");
         loadRepositories();
 
-        mrecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));      //
+        mrecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mAdapter = new ReposAdapter(mdDtaSource,R.layout.repos_item, requireActivity().getApplicationContext());
         mrecyclerView.setAdapter(mAdapter);
 
@@ -63,7 +56,7 @@ public class RepositoryFragment extends Fragment{
                 GitHubRepo item=mAdapter.getItem(position);
                 String gotoRepos="https://github.com/"+recievedUserName+"/"+item.getName();
                 Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(gotoRepos));
-                startActivity(intent);
+                startActivity(intent);                                                                  //암시적 인텐트로 해당 레파지토리로 이동시켜줌
             }
         });
         return view;

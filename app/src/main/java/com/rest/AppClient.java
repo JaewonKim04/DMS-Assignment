@@ -1,9 +1,5 @@
 package com.rest;
 
-import com.google.gson.Gson;
-
-import java.net.URI;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

@@ -17,10 +17,6 @@ public class GitHubRepo {
         return update;
     }
 
-    public void setUpdate(String update) {
-        this.update = update;
-    }
-
     public String getCreate() {
         return create;
     }
@@ -32,8 +28,7 @@ public class GitHubRepo {
     public GitHubRepo(
             String language,
             String create,
-            String name,
-            String update) {
+            String name) {
 
         this.setLanguage(language);
         this.setName(name);

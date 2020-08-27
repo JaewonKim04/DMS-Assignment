@@ -1,6 +1,5 @@
 package com.rest;
 
-import com.model.GitHubRepo;
 import com.model.GitHubUsers;
 
 import retrofit2.Call;

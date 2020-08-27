@@ -5,32 +5,23 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
-import com.example.mygithub.R;
-import com.example.mygithub.UserActivity;
 
 
 public class SettingFregment extends Fragment {
 
-    ConstraintLayout fragment1,fragment3;
-    LinearLayout fragment2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_setting_fregment, container, false);
-        fragment1=view.findViewById(R.id.fragment1);
-        fragment2=view.findViewById(R.id.fragment2);
-        fragment3=view.findViewById(R.id.fragment3);
         Bundle extras=getActivity().getIntent().getExtras();
-        final String username=extras.getString("username_String");
+        final String username=extras.getString("username_String");  //MainActivity 로 부터 id 전달받기
         Button red=view.findViewById(R.id.red);
         Button yellow=view.findViewById(R.id.yellow);
         Button orange=view.findViewById(R.id.orange);
@@ -44,7 +35,7 @@ public class SettingFregment extends Fragment {
             public void onClick(View view) {
                 getActivity().finish();
             }
-        });
+        });      //사용자 전환을 위해 UserActivity 끝내기
         red.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,10 +78,10 @@ public class SettingFregment extends Fragment {
                 Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/"+username));
 startActivity(intent);
             }
-        });
+        });                                                     // 암시적 인텐트를 활용해서 자신의 계정이 있는 github 사이트로 이동함
         return view;
     }
-    private void changeColor(int a)
+    private void changeColor(int a)              //container의 색을 바꾸는 함수
     {
         switch (a)
         {

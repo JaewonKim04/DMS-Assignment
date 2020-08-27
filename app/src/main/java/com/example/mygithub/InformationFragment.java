@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,16 +32,16 @@ public class InformationFragment extends Fragment {
 
 
     TextView name,follower,following,createday,updateday;
-static String username,followingGet,followerGet,madeGet,updateGet;
+    String username;
     static Bitmap myImage;
-ImageView avatarImg;
+    ImageView avatarImg;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_information, container, false);
         name=view.findViewById(R.id.name);
         Bundle extras=getActivity().getIntent().getExtras();
-        username=extras.getString("username_String");
+        username=extras.getString("username_String");//id를 받아옴
         following=view.findViewById(R.id.textView4);
         follower=view.findViewById(R.id.textView3);
         createday=view.findViewById(R.id.textView6);
@@ -55,9 +54,9 @@ ImageView avatarImg;
     public static class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
+        protected Bitmap doInBackground(String... urls) {
             try{
-                URL url=new URL(strings[0]);
+                URL url=new URL(urls[0]);
                 HttpURLConnection connection=(HttpURLConnection)url.openConnection();
                 connection.connect();
                 InputStream inputStream=connection.getInputStream();
@@ -77,23 +76,25 @@ ImageView avatarImg;
         Call<GitHubUsers>call=apiService.getUser(username);
         call.enqueue(new Callback<GitHubUsers>() {
             @Override
-            public void onResponse(Call<GitHubUsers> call, Response<GitHubUsers> response) {
+            public void onResponse(Call<GitHubUsers> call, Response<GitHubUsers> response) { //정보를 가져와서
                 InformationFragment.ImageDownloader task=new InformationFragment.ImageDownloader();
-                    name.setText(response.body().getLogin()+"");
+
                     try{
                         InformationFragment.myImage=task.execute(response.body().getAvatar()).get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }catch (ExecutionException e){
-                        e.printStackTrace();
+                        name.setText(response.body().getLogin()+"");
+                        following.setText("팔로잉:"+response.body().getFollowing());
+                        follower.setText("팔로워:"+response.body().getFollowers());
+                        createday.setText("만든날짜:"+ response.body().getMadedate().substring(0,10));
+                        updateday.setText("마지막커밋:"+response.body().getLastdate().substring(0,10));                      //데이터를 넣는데 만약 오류가 나면 try안에 있는 코드들은 건너뜀
+
+                    } catch (Exception e) {                                                                 //try 안에서 오류가 나면 입력한 id에 문제가 있다는것이니깐 토스트를 띄우고 다시입력하도록 MainActivity로 돌아감
+                        Toast.makeText(getActivity().getApplicationContext(),"사용자를 찾을수 없습니다.",Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
                     }
                     avatarImg.setImageBitmap(InformationFragment.myImage);
                     avatarImg.getLayoutParams().height=400;
                     avatarImg.getLayoutParams().width=400;
-                    following.setText("팔로잉:"+response.body().getFollowing());
-                    follower.setText("팔로워:"+response.body().getFollowers());
-                    createday.setText("만든날짜:"+response.body().getMadedate());
-                    updateday.setText("마지막커밋:"+response.body().getLastdate());
+
                 }
 
             @Override

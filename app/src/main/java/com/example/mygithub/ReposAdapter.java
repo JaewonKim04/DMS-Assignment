@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.model.GitHubRepo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReposAdapter extends RecyclerView.Adapter<ReposAdapter.ViewHolder> implements OnReposItemClick{
 ArrayList<GitHubRepo>repos=new ArrayList<GitHubRepo>();
@@ -33,25 +32,16 @@ public ReposAdapter(ArrayList<GitHubRepo>repos,int rowLayout,Context context){
         View view=LayoutInflater.from(parent.getContext()).inflate(rowLayout,parent,false);
         return new ViewHolder(view,this);
     }
-    public List<GitHubRepo> getRepos() {
-        return repos;
-    }
 
     public void setRepos(ArrayList<GitHubRepo> repos) {
         this.repos = repos;
     }
 
-    public Context getContext() {
-        return context;
-    }
 
     public void setContext(Context context) {
         this.context = context;
     }
 
-    public int getRowLayout() {
-        return rowLayout;
-    }
 
     public Repos setRowLayout(int rowLayout) {
         this.rowLayout = rowLayout;
@@ -67,8 +57,8 @@ public ReposAdapter(ArrayList<GitHubRepo>repos,int rowLayout,Context context){
     @Override
     public void onBindViewHolder(@NonNull ReposAdapter.ViewHolder holder, int position) {
 holder.reposTitle.setText(repos.get(position).getName());
-holder.reposCreate.setText("create:"+repos.get(position).getCreate());
-holder.reposUpdate.setText("update:"+repos.get(position).getUpdate());
+holder.reposCreate.setText("create:"+repos.get(position).getCreate().substring(0,10));
+holder.reposUpdate.setText("update:"+repos.get(position).getUpdate().substring(0,10));//날짜까지만 출력하기 위해서 10글자 까지만 잘라냄
 holder.reposLanguage.setText(repos.get(position).getLanguage());
     }
 
